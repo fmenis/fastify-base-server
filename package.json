@@ -1,0 +1,22 @@
+{
+  "name": "fastify-base-server",
+  "version": "0.0.1",
+  "description": "Fastify base server",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=development nodemon --config nodemon.json --inspect index.js"
+  },
+  "keywords": [
+    "fastify"
+  ],
+  "author": "filippomeniswork@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
