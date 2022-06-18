@@ -13,7 +13,7 @@ t.test('Status API', async t => {
   t.plan(2)
 
   const fastify = Fastify()
-  fastify.register(App, { envData: { NODE_ENV: 'development' } })
+  fastify.register(App, { testMode: true })
 
   t.teardown(() => {
     fastify.close()

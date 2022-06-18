@@ -12,7 +12,9 @@
     "test": "tap",
     "start:dev": "NODE_ENV=development nodemon --config nodemon.json --inspect -r dotenv/config index.js",
     "lint": "eslint . --ext .js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "initDb": "docker-compose up -d",
+    "rebuildDb": "./scripts/rebuildDb.sh"
   },
   "keywords": [
     "fastify"
@@ -32,6 +34,7 @@
     "fastify": "^4.0.3",
     "fastify-plugin": "^3.0.1",
     "fluent-json-schema": "^3.1.0",
+    "massive": "^6.10.2",
     "pino": "^8.0.0",
     "tap": "^16.3.0"
   },

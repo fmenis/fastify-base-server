@@ -3,9 +3,10 @@ import Cors from '@fastify/cors'
 import Helmet from '@fastify/helmet'
 
 import apiPlugin from './routes/index.js'
-import swaggerPlugin from './plugins/swagger.js'
+import swaggerGeneratorPlugin from './plugins/swagger.js'
+import postgresPlugin from './plugins/postgres.js'
 
-export default async function app(fastify) {
+export default async function app(fastify, opts) {
   fastify.register(Sensible)
   fastify.register(Helmet)
 
@@ -14,6 +15,7 @@ export default async function app(fastify) {
     credentials: true,
   })
 
-  fastify.register(swaggerPlugin)
+  fastify.register(swaggerGeneratorPlugin)
+  fastify.register(postgresPlugin, opts)
   fastify.register(apiPlugin, { prefix: '/api' })
 }
