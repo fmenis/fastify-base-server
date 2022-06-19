@@ -21,6 +21,10 @@ async function postgresPlugin(fastify, opts) {
   const db = await massive(config)
 
   fastify.decorate('db', db)
+
+  fastify.onClose(async () => {
+    await db.pgp.end()
+  })
 }
 
 export default fp(postgresPlugin)
