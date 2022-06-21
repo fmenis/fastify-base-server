@@ -14,7 +14,8 @@
     "lint": "eslint . --ext .js",
     "prepare": "husky install",
     "initDb": "docker-compose up -d",
-    "rebuildDb": "./scripts/rebuildDb.sh"
+    "rebuildDb": "./scripts/rebuildDb.sh",
+    "migrations": "node -r dotenv/config ./scripts/runMigrations.js"
   },
   "keywords": [
     "fastify"
@@ -35,7 +36,9 @@
     "fastify-plugin": "^3.0.1",
     "fluent-json-schema": "^3.1.0",
     "massive": "^6.10.2",
+    "pg": "^8.7.3",
     "pino": "^8.0.0",
+    "postgrator": "^7.1.0",
     "tap": "^16.3.0"
   },
   "devDependencies": {
