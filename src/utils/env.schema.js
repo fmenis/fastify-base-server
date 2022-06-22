@@ -1,5 +1,5 @@
 import S from 'fluent-json-schema'
-import { ENV } from '../enums.js'
+import { ENV } from '../common/enums.js'
 
 export function sEnv() {
   return S.object()

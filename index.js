@@ -1,39 +1,12 @@
 import Fastify from 'fastify'
-import { readFileSync } from 'fs'
-import { join, resolve } from 'path'
 import Env from '@fastify/env'
-import { stdTimeFunctions } from 'pino'
 
-import { ENV } from './src/common/enums.js'
-import { sEnv } from './src/common/schemas/env.schema.js'
+import { sEnv } from './src/utils/env.schema.js'
+import { buildServerOptions } from './src/utils/buildServeOptions.js'
 
 import App from './src/app.js'
 
-const serverOptions = {
-  logger: {
-    level: process.env.LOG_LEVEL,
-    timestamp: () => stdTimeFunctions.isoTime(),
-  },
-  trustProxy: true,
-  ajv: {
-    customOptions: {
-      allErrors: true,
-    },
-  },
-}
-
-if (process.env.HTTP2 === 'enabled') {
-  serverOptions.http2 = true
-
-  if (process.env.NODE_ENV === ENV.DEVELOPMENT) {
-    serverOptions.https = {
-      key: readFileSync(join(resolve(), 'certs', 'local-fastify.key')),
-      cert: readFileSync(join(resolve(), 'certs', 'local-fastify.crt')),
-    }
-  }
-}
-
-const fastify = Fastify(serverOptions)
+const fastify = Fastify(buildServerOptions())
 
 fastify.register(Env, {
   schema: sEnv(),
@@ -41,16 +14,16 @@ fastify.register(Env, {
 
 fastify.register(App)
 
-const port = process.env.SERVER_PORT || 3000
-const host = process.env.SERVER_ADDRESS || '0.0.0.0'
+fastify.listen(
+  { port: process.env.SERVER_PORT, host: process.env.SERVER_ADDRESS },
+  err => {
+    const { log } = fastify
 
-fastify.listen({ port, host }, err => {
-  const { log } = fastify
+    if (err) {
+      log.error(err)
+      throw new Error(err)
+    }
 
-  if (err) {
-    log.error(err)
-    throw new Error(err)
+    log.info(`Server running in '${process.env.NODE_ENV}' mode`)
   }
-
-  log.info(`Server running in '${process.env.NODE_ENV}' mode`)
-})
+)

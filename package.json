@@ -9,13 +9,15 @@
     "npm": ">=8.1.0"
   },
   "scripts": {
-    "test": "tap",
     "start:dev": "NODE_ENV=development nodemon --config nodemon.json --inspect -r dotenv/config index.js",
+    "start:prod": "NODE_ENV=production node -r dotenv/config index.js",
+    "start": "npm run applyMigrations && npm run start:dev",
+    "test": "tap",
     "lint": "eslint . --ext .js",
     "prepare": "husky install",
     "initDb": "docker-compose up -d",
     "rebuildDb": "./scripts/rebuildDb.sh",
-    "migrations": "node -r dotenv/config ./scripts/runMigrations.js"
+    "applyMigrations": "node -r dotenv/config ./scripts/applyMigrations.js"
   },
   "keywords": [
     "fastify"
