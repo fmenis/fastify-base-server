@@ -1,27 +1,26 @@
 import Fastify from 'fastify'
 
 import { buildServerOptions } from './src/utils/buildServeOptions.js'
-import { applyMigrations } from './scripts/applyMigrations.js'
-
 import App from './src/app.js'
 
 const fastify = Fastify(buildServerOptions())
 
 fastify.register(App)
 
-async function start() {
-  try {
-    await applyMigrations()
+fastify.listen(
+  {
+    port: process.env.SERVER_PORT,
+    host: process.env.SERVER_ADDRESS,
+  },
+  err => {
+    const { log } = fastify
 
-    await fastify.listen({
-      port: process.env.SERVER_PORT,
-      host: process.env.SERVER_ADDRESS,
-    })
+    if (err) {
+      log.fatal(err)
+      // eslint-disable-next-line no-process-exit
+      process.exit(1)
+    }
 
-    fastify.log.info(`Server running in '${process.env.NODE_ENV}' mode`)
-  } catch (err) {
-    fastify.log.error(err)
-    throw err
+    log.info(`Server running in '${process.env.NODE_ENV}' mode`)
   }
-}
-start()
+)

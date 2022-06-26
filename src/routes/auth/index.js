@@ -12,6 +12,6 @@ export default async function index(fastify) {
     }
   })
 
-  const prefix = '/v1/auth'
+  const prefix = '/auth'
   fastify.register(loginRoute, { prefix })
 }

@@ -8,6 +8,5 @@ export default async function index(fastify) {
     }
   })
 
-  const prefix = '/v1'
-  fastify.register(statusRoute, { prefix })
+  fastify.register(statusRoute)
 }
