@@ -23,7 +23,10 @@ async function swaggerGenerator(fastify) {
       schemes: ['https'],
       consumes: ['application/json'],
       produces: ['application/json'],
-      tags: [{ name: 'misc', description: 'Miscellaneous related end-points' }],
+      tags: [
+        { name: 'auth', description: 'Auth related end-points' },
+        { name: 'misc', description: 'Miscellaneous related end-points' },
+      ],
     },
     exposeRoute: true,
   })

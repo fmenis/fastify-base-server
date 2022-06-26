@@ -1,29 +1,27 @@
 import Fastify from 'fastify'
-import Env from '@fastify/env'
 
-import { sEnv } from './src/utils/env.schema.js'
 import { buildServerOptions } from './src/utils/buildServeOptions.js'
+import { applyMigrations } from './scripts/applyMigrations.js'
 
 import App from './src/app.js'
 
 const fastify = Fastify(buildServerOptions())
 
-fastify.register(Env, {
-  schema: sEnv(),
-})
-
 fastify.register(App)
 
-fastify.listen(
-  { port: process.env.SERVER_PORT, host: process.env.SERVER_ADDRESS },
-  err => {
-    const { log } = fastify
+async function start() {
+  try {
+    await applyMigrations()
 
-    if (err) {
-      log.error(err)
-      throw new Error(err)
-    }
+    await fastify.listen({
+      port: process.env.SERVER_PORT,
+      host: process.env.SERVER_ADDRESS,
+    })
 
-    log.info(`Server running in '${process.env.NODE_ENV}' mode`)
+    fastify.log.info(`Server running in '${process.env.NODE_ENV}' mode`)
+  } catch (err) {
+    fastify.log.error(err)
+    throw err
   }
-)
+}
+start()

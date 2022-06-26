@@ -18,12 +18,12 @@ async function postgresPlugin(fastify, opts) {
     config.password = process.env.PG_PW_TEST
   }
 
-  const db = await massive(config)
+  const pg = await massive(config)
 
-  fastify.decorate('db', db)
+  fastify.decorate('pg', pg)
 
   fastify.onClose(async () => {
-    await db.pgp.end()
+    await pg.pgp.end()
   })
 }
 

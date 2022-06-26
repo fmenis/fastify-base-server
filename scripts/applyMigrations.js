@@ -2,7 +2,7 @@ import Postgrator from 'postgrator'
 import pg from 'pg'
 import { join, resolve } from 'path'
 
-async function main() {
+export async function applyMigrations() {
   const client = new pg.Client({
     host: process.env.PG_HOST,
     port: process.env.PG_PORT,
@@ -48,12 +48,10 @@ async function main() {
   } catch (error) {
     if (error.appliedMigrations) {
       console.error(error.appliedMigrations)
-    } else {
-      console.log(error)
     }
+
+    console.error(error)
   }
 
   await client.end()
 }
-
-main()

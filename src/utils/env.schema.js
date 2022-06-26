@@ -26,5 +26,6 @@ export function sEnv() {
     .prop('PG_DB_TEST', S.string().required())
     .prop('PG_USER_TEST', S.string().required())
     .prop('PG_PW_TEST', S.string().required())
+    .prop('JWT_SECRET', S.string().minLength(10).required())
     .valueOf()
 }
