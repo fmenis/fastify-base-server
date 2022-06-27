@@ -2,6 +2,7 @@ import Sensible from '@fastify/sensible'
 import Cors from '@fastify/cors'
 import Helmet from '@fastify/helmet'
 import Env from '@fastify/env'
+import fp from 'fastify-plugin'
 
 import { applyMigrations } from '../scripts/applyMigrations.js'
 import { sEnv } from './utils/env.schema.js'
@@ -9,9 +10,9 @@ import apiPlugin from './routes/index.js'
 import swaggerGeneratorPlugin from './plugins/swagger.js'
 import postgresPlugin from './plugins/postgres.js'
 
-export default async function app(fastify, opts) {
+async function app(fastify, opts) {
   try {
-    await applyMigrations(opts)
+    await applyMigrations(fastify, opts)
   } catch (error) {
     fastify.log.fatal(error)
     // eslint-disable-next-line no-process-exit
@@ -33,3 +34,5 @@ export default async function app(fastify, opts) {
   fastify.register(postgresPlugin, opts)
   fastify.register(apiPlugin, { prefix: '/api' })
 }
+
+export default fp(app)

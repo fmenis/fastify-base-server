@@ -2,7 +2,8 @@ import Postgrator from 'postgrator'
 import pg from 'pg'
 import { join, resolve } from 'path'
 
-export async function applyMigrations(opts) {
+export async function applyMigrations(fastify, opts) {
+  const { log } = fastify
   const targetDb = opts?.testMode ? process.env.PG_DB_TEST : process.env.PG_DB
 
   const client = new pg.Client({
@@ -28,31 +29,31 @@ export async function applyMigrations(opts) {
     })
 
     postgrator.on('migration-started', migration =>
-      console.log(
-        `Start to execute "${migration.name}" (${migration.action}) migration...`
+      log.info(
+        `Start to execute '${migration.name}' (${migration.action}) migration...`
       )
     )
     postgrator.on('migration-finished', migration =>
-      console.log(
-        `Migration "${migration.name}" (${migration.action}) successfully applied! \n`
+      log.info(
+        `Migration '${migration.name}' (${migration.action}) successfully applied! \n`
       )
     )
 
     const results = await postgrator.migrate()
 
     if (results.length === 0) {
-      console.log(
-        `No migrations run for schema "${schema}". Db "${targetDb}" already at the latest version.`
+      log.info(
+        `No migrations run for schema '${schema}'. Db '${targetDb}' already at the latest version.`
       )
     } else {
-      console.log(`${results.length} migration/s applited.`)
+      log.info(`${results.length} migration/s applited.`)
     }
   } catch (error) {
     if (error.appliedMigrations) {
-      console.error(error.appliedMigrations)
+      log.error(error.appliedMigrations)
     }
 
-    console.error(error)
+    log.error(error)
   }
 
   await client.end()

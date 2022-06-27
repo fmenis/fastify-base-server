@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "nodemon --config nodemon.json --inspect -r dotenv/config index.js",
-    "test": "tap test/**/*.spec.js",
+    "test": "tap --jobs=1 test/**/*.spec.js",
     "lint": "eslint . --ext .js",
     "prepare": "husky install",
     "initDb": "docker-compose up -d",

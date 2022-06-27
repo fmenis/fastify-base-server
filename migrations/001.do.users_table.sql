@@ -8,6 +8,3 @@ CREATE TABLE IF NOT EXISTS users (
     "createdAt" timestamp DEFAULT NOW(),
     "updatedAt" timestamp
 );
-
-INSERT INTO users (firstname, lastname, username, email, password)
-VALUES ('John', 'Doe', 'jd', 'john@gmail.com', '$2a$10$ZR2sHP9KuYxykbHLCO/7/eDzu7ja.lRusRqErALC2/C.3wUqwTDTO')

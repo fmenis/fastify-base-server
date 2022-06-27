@@ -1,15 +1,21 @@
 export async function seedDb(fastify) {
-  const { pg } = fastify
+  await populateUsers(fastify)
+}
 
-  //TODO!!!
-  console.log('-------------------', fastify.pg)
+export async function resetDb(fastify) {
+  await deleteUsers(fastify)
+}
 
-  const res = await pg.insert({
+function populateUsers(fastify) {
+  return fastify.pg.users.insert({
     firstname: 'Alice',
     lastname: 'Spring',
-    username: 'ali',
-    password: 'prova',
+    username: 'alispring',
+    password: '$2a$10$ZR2sHP9KuYxykbHLCO/7/eDzu7ja.lRusRqErALC2/C.3wUqwTDTO',
+    email: 'test@gmdail.com',
   })
+}
 
-  console.log(res)
+function deleteUsers(fastify) {
+  return fastify.pg.users.destroy({})
 }

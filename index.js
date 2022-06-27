@@ -5,7 +5,8 @@ import App from './src/app.js'
 
 const fastify = Fastify(buildServerOptions())
 
-fastify.register(App)
+await fastify.register(App)
+await fastify.ready()
 
 fastify.listen(
   {
