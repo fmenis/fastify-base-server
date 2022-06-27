@@ -4,21 +4,12 @@ import Helmet from '@fastify/helmet'
 import Env from '@fastify/env'
 import fp from 'fastify-plugin'
 
-import { applyMigrations } from '../scripts/applyMigrations.js'
 import { sEnv } from './utils/env.schema.js'
 import apiPlugin from './routes/index.js'
 import swaggerGeneratorPlugin from './plugins/swagger.js'
 import postgresPlugin from './plugins/postgres.js'
 
 async function app(fastify, opts) {
-  try {
-    await applyMigrations(fastify, opts)
-  } catch (error) {
-    fastify.log.fatal(error)
-    // eslint-disable-next-line no-process-exit
-    process.exit(1)
-  }
-
   fastify.register(Env, {
     schema: sEnv(),
   })

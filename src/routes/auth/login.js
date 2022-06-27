@@ -17,7 +17,7 @@ export default async function login(fastify) {
         .additionalProperties(false)
         .prop('email', S.string().format('email').minLength(8).maxLength(50))
         .description('User email.')
-        .prop('username', S.string().minLength(8).maxLength(50))
+        .prop('username', S.string().minLength(3).maxLength(50))
         .description('User email.')
         .prop(
           'password',

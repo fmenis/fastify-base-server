@@ -9,12 +9,13 @@
     "npm": ">=8.1.0"
   },
   "scripts": {
-    "start": "nodemon --config nodemon.json --inspect -r dotenv/config index.js",
-    "test": "tap --jobs=1 test/**/*.spec.js",
+    "start": "npm run applyMigrations && nodemon --config nodemon.json --inspect -r dotenv/config index.js",
+    "test": "npm run applyMigrations TEST_DB && tap --jobs=1 test/**/*.spec.js",
     "lint": "eslint . --ext .js",
     "prepare": "husky install",
     "initDb": "docker-compose up -d",
-    "rebuildDb": "./scripts/rebuildDb.sh"
+    "rebuildDb": "./scripts/rebuildDb.sh",
+    "applyMigrations": "node -r dotenv/config ./scripts/applyMigrations.js"
   },
   "keywords": [
     "fastify"
