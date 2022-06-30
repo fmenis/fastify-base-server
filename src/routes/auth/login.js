@@ -4,11 +4,13 @@ import S from 'fluent-json-schema'
 
 export default async function login(fastify) {
   const { pg, httpErrors, bcrypt, jwt } = fastify
-  // const { passwordRexExp } = appConfig
 
   fastify.route({
     method: 'POST',
     url: '/login',
+    config: {
+      public: true,
+    },
     constraints: { version: '1.0.0' },
     schema: {
       summary: 'Login',
@@ -31,12 +33,11 @@ export default async function login(fastify) {
           .prop('jwt', S.string())
           .description('Json web token')
           .required(),
-        // 204: fastify.getSchema('sNoContent'),
       },
     },
     preValidation: async req => {
       if (!req.body.email && !req.body.username) {
-        req.log.debug('Invalid access: both username and password are empty')
+        req.log.debug('Both username and password are empty')
         throw httpErrors.badRequest('Username and email cannot be both empty')
       }
     },
@@ -49,22 +50,26 @@ export default async function login(fastify) {
 
     const user = await pg.users.findOne({ or: [{ username }, { email }] })
     if (!user) {
-      log.debug(`Invalid access: user '${email || username}' not found`)
+      log.debug(`User '${email || username}' not found`)
       throw httpErrors.unauthorized('Invalid access: wrong credentials')
     }
 
-    // check pw
     const match = await bcrypt.compare(password, user.password)
     if (!match) {
+      log.debug(`Password not match`)
       throw httpErrors.unauthorized('Invalid access: wrong credentials')
     }
 
     //TODO opzioni jwt
-    const options = {
-      expiresIn: 60000 * 60 * 24 * 7,
+    // const options = {
+    //   expiresIn: appConfig.jwt.expiresIn,
+    // }
+
+    const payload = {
+      email: user.email,
     }
 
-    const token = jwt.sign(options)
+    const token = jwt.sign(payload)
     reply.send({ jwt: token })
   }
 }
