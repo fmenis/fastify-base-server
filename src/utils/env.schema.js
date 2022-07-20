@@ -15,6 +15,7 @@ export function sEnv() {
         .enum(['debug', 'info', 'warn', 'error', 'fatal'])
         .default('info')
     )
+    .prop('LOG_REQ_BODY', S.boolean().default(false))
     .prop('HTTP2', S.string().enum(['enabled', 'disabled']).default('disabled'))
     .prop('PG_HOST', S.string().required())
     .prop('PG_PORT', S.string().required())
