@@ -18,23 +18,6 @@ services:
       TZ: 'Europe/Rome'
       PGTZ: 'Europe/Rome'
 
-  postgres-test:
-    container_name: postgres-fastify-test
-    image: postgres:14
-    restart: always
-    ports:
-      - 8432:5432
-    networks:
-      - database
-    volumes:
-      - postgres-fastify-test:/var/lib/postgresql/data
-      - ./conf/postgres/1-create-user-and-db.sh:/docker-entrypoint-initdb.d/1-create-user-and-db.sh
-    environment:
-      POSTGRES_PASSWORD: postgres
-      PGDATA: /var/lib/postgresql/data/pgdata
-      TZ: 'Europe/Rome'
-      PGTZ: 'Europe/Rome'
-
 networks:
   database:
     name: database
@@ -42,5 +25,3 @@ networks:
 volumes:
   postgres-fastify:
     name: postgres-fastify
-  postgres-fastify-test:
-    name: postgres-fastify-test

@@ -2,11 +2,14 @@ import Postgrator from 'postgrator'
 import pg from 'pg'
 import { join, resolve } from 'path'
 
-async function main() {
+async function applyMigrations() {
+  const db = process.argv.slice(2)[0]
+  const targetDb = db === 'TEST_DB' ? process.env.PG_DB_TEST : process.env.PG_DB
+
   const client = new pg.Client({
     host: process.env.PG_HOST,
     port: process.env.PG_PORT,
-    database: process.env.PG_DB,
+    database: targetDb,
     user: process.env.PG_USER,
     password: process.env.PG_PW,
   })
@@ -19,41 +22,41 @@ async function main() {
     const postgrator = new Postgrator({
       migrationPattern: join(resolve(), '/migrations/*'),
       driver: 'pg',
-      database: process.env.PG_DB,
+      database: targetDb,
       schemaTable: 'migrations',
       currentSchema: schema,
       execQuery: query => client.query(query),
     })
 
     postgrator.on('migration-started', migration =>
-      console.log(
-        `Start to execute "${migration.name}" (${migration.action}) migration...`
+      console.info(
+        `Start to execute '${migration.name}' (${migration.action}) migration...`
       )
     )
+
     postgrator.on('migration-finished', migration =>
-      console.log(
-        `Migration "${migration.name}" (${migration.action}) successfully applied! \n`
+      console.info(
+        `Migration '${migration.name}' (${migration.action}) successfully applied! \n`
       )
     )
 
     const results = await postgrator.migrate()
 
     if (results.length === 0) {
-      console.log(
-        `No migrations run for schema "${schema}". Db already at the latest version.`
+      console.info(
+        `No migrations run for schema '${schema}'. Db '${targetDb}' already at the latest version.`
       )
     } else {
-      console.log(`${results.length} migration/s applited.`)
+      console.info(`${results.length} migration/s applited.`)
     }
   } catch (error) {
     if (error.appliedMigrations) {
       console.error(error.appliedMigrations)
-    } else {
-      console.log(error)
     }
+    console.error(error)
   }
 
   await client.end()
 }
 
-main()
+applyMigrations()

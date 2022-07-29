@@ -8,6 +8,10 @@ export default async function status(fastify) {
   fastify.route({
     method: 'GET',
     path: '/status',
+    constraints: { version: '1.0.0' },
+    config: {
+      public: false,
+    },
     schema: {
       summary: 'Get application status and version',
       description: 'Returns status and version of the server.',

@@ -5,9 +5,6 @@ module.exports = {
       cwd: '/opt/name',
       script: 'index.js',
       node_args: '-r dotenv/config',
-      env: {
-        NODE_ENV: 'staging',
-      },
       exp_backoff_restart_delay: 100,
       max_memory_restart: '500M',
       max_restarts: 10,
