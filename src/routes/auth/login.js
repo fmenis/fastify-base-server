@@ -1,6 +1,6 @@
 import S from 'fluent-json-schema'
 
-// import { appConfig } from '../../config/main.js'
+import { appConfig } from '../../config/main.js'
 
 export default async function login(fastify) {
   const { pg, httpErrors, bcrypt, jwt } = fastify
@@ -60,16 +60,17 @@ export default async function login(fastify) {
       throw httpErrors.unauthorized('Invalid access: wrong credentials')
     }
 
-    //TODO opzioni jwt
-    // const options = {
-    //   expiresIn: appConfig.jwt.expiresIn,
-    // }
+    const options = {
+      expiresIn: appConfig.jwt.expiresIn,
+      iss: 'api.example.it',
+      sub: 'fastify-sample',
+    }
 
     const payload = {
       email: user.email,
     }
 
-    const token = jwt.sign(payload)
+    const token = jwt.sign(payload, options)
     reply.send({ jwt: token })
   }
 }
