@@ -53,11 +53,26 @@ async function verifyToken(fastify, req) {
     const token = await jwt.verify(rawJwt)
     return token
   } catch (error) {
-    console.log(error)
+    if (error?.code) {
+      switch (error.code) {
+        case 'FAST_JWT_MALFORMED':
+          log.debug(`Malformed jwt`)
+          break
 
-    //##TODO finire di mappare errori
-    if (error?.code === 'FAST_JWT_MALFORMED') {
-      log.debug(`Malformed jwt`)
+        case 'FAST_JWT_EXPIRED':
+          log.debug(`Expired jwt`)
+          break
+
+        case 'FAST_JWT_INVALID_SIGNATURE':
+          log.debug(`Expired jwt`)
+          break
+
+        default:
+          log.warn(`Unknown jwt error '${error.code}'`)
+          break
+      }
+    } else {
+      throw error
     }
 
     throw httpErrors.unauthorized('Invalid access')
