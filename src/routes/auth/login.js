@@ -1,6 +1,6 @@
 import S from 'fluent-json-schema'
 
-// import { appConfig } from '../../config/main.js'
+import { appConfig } from '../../config/main.js'
 
 export default async function login(fastify) {
   const { pg, httpErrors, bcrypt, jwt } = fastify
@@ -50,26 +50,36 @@ export default async function login(fastify) {
 
     const user = await pg.users.findOne({ or: [{ username }, { email }] })
     if (!user) {
-      log.debug(`User '${email || username}' not found`)
+      log.debug(`Invalid access: user '${email || username}' not found`)
       throw httpErrors.unauthorized('Invalid access: wrong credentials')
     }
 
     const match = await bcrypt.compare(password, user.password)
     if (!match) {
-      log.debug(`Password not match`)
+      log.debug(`Invalid access: password not match`)
       throw httpErrors.unauthorized('Invalid access: wrong credentials')
     }
 
-    //TODO opzioni jwt
-    // const options = {
-    //   expiresIn: appConfig.jwt.expiresIn,
-    // }
+    const options = {
+      expiresIn: appConfig.jwt.expiresIn,
+      iss: 'api.example.it',
+      sub: 'fastify-sample',
+    }
 
     const payload = {
       email: user.email,
     }
 
-    const token = jwt.sign(payload)
-    reply.send({ jwt: token })
+    const token = jwt.sign(payload, options)
+
+    reply
+      .setCookie(fastify.config.COOKIE_NAME, token, {
+        // domain: 'your.domain',
+        path: '/',
+        // secure: true, // send cookie over HTTPS only
+        httpOnly: true,
+        sameSite: true,
+      })
+      .code(200)
   }
 }

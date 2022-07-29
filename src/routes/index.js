@@ -55,8 +55,8 @@ export default async function index(fastify) {
         ...options.schema,
         headers: {
           ...options.schema.headers
-            .prop('Authorization', S.string())
-            .description('Authentication bearer token.')
+            .prop('Cookie', S.string())
+            .description('Authentication cookie header.')
             .required(),
         },
       }

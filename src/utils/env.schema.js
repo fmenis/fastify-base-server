@@ -24,5 +24,7 @@ export function sEnv() {
     .prop('PG_USER', S.string().required())
     .prop('PG_PW', S.string().required())
     .prop('JWT_SECRET', S.string().minLength(10).required())
+    .prop('COOKIE_SECRET', S.string().minLength(10).required())
+    .prop('COOKIE_NAME', S.string().minLength(5).default('token'))
     .valueOf()
 }

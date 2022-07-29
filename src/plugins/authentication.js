@@ -1,9 +1,21 @@
 import fp from 'fastify-plugin'
 import jwt from '@fastify/jwt'
+import cookie from '@fastify/cookie'
 
 async function authentication(fastify) {
+  const { config } = fastify
+
+  fastify.register(cookie, {
+    secret: config.COOKIE_SECRET,
+    parseOptions: {},
+  })
+
   fastify.register(jwt, {
-    secret: fastify.config.JWT_SECRET,
+    secret: config.JWT_SECRET,
+    cookie: {
+      cookieName: config.COOKIE_NAME,
+      signed: true,
+    },
   })
 
   async function authenticate(req, reply) {
@@ -18,7 +30,7 @@ async function authentication(fastify) {
 
     const user = await pg.users.findOne({ email: token.email })
     if (!user) {
-      log.debug(`User with email '${token.email}' not found`)
+      log.debug(`Invalid access: user with email '${token.email}' not found`)
       throw httpErrors.unauthorized('Invalid access')
     }
 
@@ -29,35 +41,39 @@ async function authentication(fastify) {
 }
 
 async function verifyToken(fastify, req) {
-  const { jwt, httpErrors, log } = fastify
-
-  const header = req.headers.authorization
-  if (!header) {
-    log.debug(`'Authorization' header not found`)
-    throw httpErrors.unauthorized('Invalid access')
-  }
-
-  const [identifier, rawJwt] = header.split(' ')
-
-  if (identifier !== 'Bearer') {
-    log.debug(`Malformed 'Authorization' header (no Bearer part)`)
-    throw httpErrors.unauthorized('Invalid access')
-  }
-
-  if (!rawJwt) {
-    log.debug(`Malformed 'Authorization' header (no token part)`)
-    throw httpErrors.unauthorized('Invalid access')
-  }
+  const { jwt, httpErrors, log, config } = fastify
 
   try {
+    const rawJwt = req.cookies[config.COOKIE_NAME]
+    if (!rawJwt) {
+      log.debug(`Invalid access: authentication cookie not found`)
+      throw httpErrors.unauthorized('Invalid access')
+    }
+
     const token = await jwt.verify(rawJwt)
+
     return token
   } catch (error) {
-    console.log(error)
+    if (error?.code) {
+      switch (error.code) {
+        case 'FAST_JWT_MALFORMED':
+          log.debug(`Invalid access: malformed jwt`)
+          break
 
-    //##TODO finire di mappare errori
-    if (error?.code === 'FAST_JWT_MALFORMED') {
-      log.debug(`Malformed jwt`)
+        case 'FAST_JWT_EXPIRED':
+          log.debug(`Invalid access: expired jwt`)
+          break
+
+        case 'FAST_JWT_INVALID_SIGNATURE':
+          log.debug(`Invalid access: invalid jwt signature`)
+          break
+
+        default:
+          log.warn(`Invalid access: unknown token error '${error.code}'`)
+          break
+      }
+    } else {
+      log.error(error)
     }
 
     throw httpErrors.unauthorized('Invalid access')
