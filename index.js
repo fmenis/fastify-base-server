@@ -3,11 +3,9 @@ import closeWithGrace from 'close-with-grace'
 
 import { buildServerOptions } from './src/utils/buildServeOptions.js'
 import App from './src/app.js'
-import { appConfig } from './src/config/main.js'
 
 const fastify = Fastify(buildServerOptions())
 
-fastify.decorate('appConfig', appConfig)
 await fastify.register(App)
 await fastify.ready()
 

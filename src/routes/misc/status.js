@@ -32,6 +32,6 @@ export default async function status(fastify) {
   })
 
   async function onStatus() {
-    return { status: 'ok', serverVersion }
+    return { status: 'ok', version: serverVersion }
   }
 }

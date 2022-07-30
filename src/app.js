@@ -8,8 +8,11 @@ import { sEnv } from './utils/env.schema.js'
 import apiPlugin from './routes/index.js'
 import swaggerGeneratorPlugin from './plugins/swagger.js'
 import postgresPlugin from './plugins/postgres.js'
+import { appConfig } from './config/main.js'
 
 async function app(fastify, opts) {
+  fastify.decorate('appConfig', appConfig)
+
   fastify.register(Env, {
     schema: sEnv(),
   })
