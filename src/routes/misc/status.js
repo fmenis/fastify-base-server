@@ -2,19 +2,23 @@ import S from 'fluent-json-schema'
 import { join, resolve } from 'path'
 import { readFileSync } from 'fs'
 
-const { version } = JSON.parse(readFileSync(join(resolve(), 'package.json')))
+const { version: serverVersion } = JSON.parse(
+  readFileSync(join(resolve(), 'package.json'))
+)
 
 export default async function status(fastify) {
+  const version = '1.0.0'
+
   fastify.route({
     method: 'GET',
     path: '/status',
-    constraints: { version: '1.0.0' },
+    constraints: { version },
     config: {
       public: false,
     },
     schema: {
       summary: 'Get application status and version',
-      description: 'Returns status and version of the server.',
+      description: `Returns status and version of the server (version ${version})`,
       response: {
         200: S.object()
           .description('Status response.')
@@ -28,6 +32,6 @@ export default async function status(fastify) {
   })
 
   async function onStatus() {
-    return { status: 'ok', version }
+    return { status: 'ok', serverVersion }
   }
 }

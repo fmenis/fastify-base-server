@@ -1,9 +1,8 @@
 import S from 'fluent-json-schema'
 
-import { appConfig } from '../../config/main.js'
-
 export default async function login(fastify) {
-  const { pg, httpErrors, bcrypt, jwt, config } = fastify
+  const { pg, httpErrors, bcrypt, jwt, config, appConfig } = fastify
+  const version = '1.0.0'
 
   fastify.route({
     method: 'POST',
@@ -11,10 +10,10 @@ export default async function login(fastify) {
     config: {
       public: true,
     },
-    constraints: { version: '1.0.0' },
+    constraints: { version },
     schema: {
       summary: 'Login',
-      description: 'Authenticate user into the system.',
+      description: `Authenticate user into the system (version ${version})`,
       body: S.object()
         .additionalProperties(false)
         .prop('email', S.string().format('email').minLength(8).maxLength(50))
