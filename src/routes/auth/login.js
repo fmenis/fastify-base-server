@@ -3,7 +3,7 @@ import S from 'fluent-json-schema'
 import { appConfig } from '../../config/main.js'
 
 export default async function login(fastify) {
-  const { pg, httpErrors, bcrypt, jwt } = fastify
+  const { pg, httpErrors, bcrypt, jwt, config } = fastify
 
   fastify.route({
     method: 'POST',
@@ -29,6 +29,7 @@ export default async function login(fastify) {
         .required(),
       response: {
         200: S.object()
+          .description('Login response.')
           .additionalProperties(false)
           .prop('jwt', S.string())
           .description('Json web token')
@@ -62,7 +63,7 @@ export default async function login(fastify) {
 
     const options = {
       expiresIn: appConfig.jwt.expiresIn,
-      iss: 'api.example.it',
+      iss: `${config.SERVER_ADDRESS}:${config.SERVER_PORT}`,
       sub: 'fastify-sample',
     }
 

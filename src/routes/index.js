@@ -40,7 +40,6 @@ export default async function index(fastify) {
       headers: S.object()
         .additionalProperties(true)
         .prop('Accept-Version', S.string())
-        .examples(['1.0.0']) //##TODO non viene visualizzato
         .description('Api version header.')
         .required(),
       response: {

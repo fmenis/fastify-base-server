@@ -17,6 +17,7 @@ export default async function status(fastify) {
       description: 'Returns status and version of the server.',
       response: {
         200: S.object()
+          .description('Status response.')
           .prop('status', S.string())
           .description('Status.')
           .prop('version', S.string())

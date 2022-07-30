@@ -6,23 +6,28 @@ import Swagger from '@fastify/swagger'
 const { version } = JSON.parse(readFileSync(join(resolve(), 'package.json')))
 
 async function swaggerGenerator(fastify) {
-  // TODO passare a openApi v3
   fastify.register(Swagger, {
     routePrefix: '/doc',
-    swagger: {
+    openapi: {
       info: {
         title: 'Fastify base server',
         description: 'Fastify base server documentation',
         version,
+        contact: {
+          name: 'API Support',
+          email: 'filippomeniswork@gmail.com',
+        },
       },
       externalDocs: {
         url: 'https://github.com/fmenis/fastify-base-server',
         description: 'Find more info here',
       },
-      host: `${process.env.SERVER_ADDRESS}:${process.env.SERVER_PORT}`,
-      schemes: ['https'],
-      consumes: ['application/json'],
-      produces: ['application/json'],
+      servers: [
+        {
+          url: `http://localhost:${process.env.SERVER_PORT}`,
+          description: 'Development server',
+        },
+      ],
       tags: [
         { name: 'auth', description: 'Auth related end-points' },
         { name: 'misc', description: 'Miscellaneous related end-points' },
