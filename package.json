@@ -21,8 +21,13 @@
     "fastify"
   ],
   "author": "filippomeniswork@gmail.com",
+  "homepage": "https://github.com/fmenis/fastify-base-server#readme",
   "repository": {
+    "type": "git",
     "url": "https://github.com/fmenis/fastify-base-server"
+  },
+  "bugs": {
+    "url": "https://github.com/fmenis/fastify-base-server/issues"
   },
   "license": "ISC",
   "dependencies": {
