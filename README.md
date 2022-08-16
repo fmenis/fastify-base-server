@@ -2,20 +2,13 @@
 
 > Fastity base server (boilerplate).
 
-## Requirements
-
-- [nodejs](https://nodejs.org/en/) (>=16.13.x)
-- [npm](https://www.npmjs.com/) (>=8.1.0)
-- [docker](https://www.docker.com/) (>=20)
-- [docker-compose](https://docs.docker.com/compose/) (>=1)
-
 ## Features
 
 - Stateless token based authentication
-- Software installation using `docker`
-- Strong api inputs validation and response serialization through [fluen-json-schema](https://github.com/fastify/fluent-json-schema)
+- Strong API inputs validation and response serialization through [fluen-json-schema](https://github.com/fastify/fluent-json-schema)
 - OpenAPI 3.0 documentation by swagger
-- Api versioning
+- API versioning
+- Database (postgres) installed by `docker`
 - Database access through [massivejs](https://massivejs.org/)
 - Automatic application of migrations (through [postgrator](https://github.com/rickbergfalk/postgrator))
 - Gracefull shutdown
@@ -24,8 +17,19 @@
 - Strong environment variables usage
 - E2e test applied to a physic copy of the main db
 - PM2 ecosystem files
+- [TODO] centralization of API errors
+- [TODO] server dockerization
+- [TODO] structured codebase
+- [TODO] TypeScript support
 
-## Initialization
+## Requirements
+
+- [nodejs](https://nodejs.org/en/) (>=16.13.x)
+- [npm](https://www.npmjs.com/) (>=8.1.0)
+- [docker](https://www.docker.com/) (>=20)
+- [docker-compose](https://docs.docker.com/compose/) (>=1)
+
+## Setup
 
 1. **Set environments variables**  
    Copy the `.env-example` file and name it `.env`, then set the appropriated values. For details, see _Environment variables_ section.
