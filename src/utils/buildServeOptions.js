@@ -37,7 +37,7 @@ export function buildServerOptions() {
     } else {
       serverOptions.https = {
         key: readFileSync(process.env.SSH_PRIVATE_KEY),
-        cert: readFileSync(rocess.env.SSH_CERTIFICATE),
+        cert: readFileSync(process.env.SSH_CERTIFICATE),
       }
     }
   }
