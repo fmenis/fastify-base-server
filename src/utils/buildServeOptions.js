@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
-import { join, resolve } from 'path'
 import { stdTimeFunctions } from 'pino'
+import selfCert from 'self-cert'
 
 import { ENV } from '../common/enums.js'
 
@@ -26,9 +26,18 @@ export function buildServerOptions() {
     serverOptions.http2 = true
 
     if (process.env.NODE_ENV === ENV.DEVELOPMENT) {
+      const certs = selfCert({
+        expires: new Date(Date.now() + 86400000),
+      })
+
       serverOptions.https = {
-        key: readFileSync(join(resolve(), 'certs', 'local-fastify.key')),
-        cert: readFileSync(join(resolve(), 'certs', 'local-fastify.crt')),
+        key: certs.privateKey,
+        cert: certs.certificate,
+      }
+    } else {
+      serverOptions.https = {
+        key: readFileSync(process.env.SSH_PRIVATE_KEY),
+        cert: readFileSync(rocess.env.SSH_CERTIFICATE),
       }
     }
   }

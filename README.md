@@ -40,21 +40,23 @@
 
 **Bold** env must be requred.
 
-| Name           |      Default       | Description                       |
-| -------------- | :----------------: | --------------------------------- |
-| **NODE_ENV**   | Nodejs environment |
-| SERVER_ADDRESS |     127.0.0.1      | Server address                    |
-| SERVER_PORT    |        3000        | Server port                       |
-| LOG_LEVEL      |        info        | Pino.js default log level         |
-| LOG_REQ_BODY   |       false        | Log request body                  |
-| HTTP2          |      disabled      | Launch server with http version 2 |
-| **PG_HOST**    |                    | Postgres host                     |
-| **PG_PORT**    |                    | Postgres port                     |
-| **PG_DB**      |                    | Postgres database                 |
-| **PG_DB_TEST** |                    | Postgres test database            |
-| **PG_USER**    |                    | Postgres user                     |
-| **PG_PW**      |                    | Postgres password                 |
-| **JWT_SECRET** |                    | Secret used to sign the jwt token |
+| Name            |      Default       | Description                       |
+| --------------- | :----------------: | --------------------------------- |
+| **NODE_ENV**    | Nodejs environment |
+| SERVER_ADDRESS  |     127.0.0.1      | Server address                    |
+| SERVER_PORT     |        3000        | Server port                       |
+| LOG_LEVEL       |        info        | Pino.js default log level         |
+| LOG_REQ_BODY    |       false        | Log request body                  |
+| HTTP2           |      disabled      | Launch server with http version 2 |
+| SSH_PRIVATE_KEY |                    | SSH private key full path         |
+| SSH_CERTIFICATE |                    | SSH certificate key full path     |
+| **PG_HOST**     |                    | Postgres host                     |
+| **PG_PORT**     |                    | Postgres port                     |
+| **PG_DB**       |                    | Postgres database                 |
+| **PG_DB_TEST**  |                    | Postgres test database            |
+| **PG_USER**     |                    | Postgres user                     |
+| **PG_PW**       |                    | Postgres password                 |
+| **JWT_SECRET**  |                    | Secret used to sign the jwt token |
 
 PS: If you have difficulties to compiling the env file, ask the backend guy!
 
