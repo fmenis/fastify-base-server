@@ -10,6 +10,9 @@ export default async function index(fastify) {
   fastify.register(loadSchemas)
   fastify.register(authentication)
 
+  fastify.register(miscRoutes)
+  fastify.register(authRoutes)
+
   /**
    * Additional request logs
    */
@@ -63,6 +66,13 @@ export default async function index(fastify) {
   })
 
   /**
+   * Empty object that can be utilized to pass data between hooks
+   */
+  fastify.addHook('onRequest', async req => {
+    req.resource = {}
+  })
+
+  /**
    * Format errors
    */
   fastify.addHook('onError', async (req, reply, error) => {
@@ -78,7 +88,4 @@ export default async function index(fastify) {
       error.message = 'Invalid input'
     }
   })
-
-  fastify.register(miscRoutes)
-  fastify.register(authRoutes)
 }

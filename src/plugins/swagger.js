@@ -31,7 +31,7 @@ async function swaggerGenerator(fastify) {
       tags: [
         { name: 'auth', description: 'Auth related end-points' },
         { name: 'misc', description: 'Miscellaneous related end-points' },
-      ],
+      ].sort((a, b) => a.name.localeCompare(b.name)),
     },
     exposeRoute: true,
   })
