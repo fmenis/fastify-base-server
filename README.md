@@ -50,8 +50,8 @@
 | SERVER_ADDRESS  |     127.0.0.1      | Server address                    |
 | SERVER_PORT     |        3000        | Server port                       |
 | LOG_LEVEL       |        info        | Pino.js default log level         |
-| LOG_REQ_BODY    |       false        | Log request body                  |
-| HTTP2           |      disabled      | Launch server with http version 2 |
+| ENABLE_BODY_LOG |       false        | Log request body                  |
+| ENABLE_HTTP2    |      disabled      | Launch server with http version 2 |
 | SSH_PRIVATE_KEY |                    | SSH private key full path         |
 | SSH_CERTIFICATE |                    | SSH certificate key full path     |
 | **PG_HOST**     |                    | Postgres host                     |

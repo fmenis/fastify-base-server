@@ -30,8 +30,8 @@ export function buildServerOptions() {
     },
   }
 
-  if (process.env.HTTP2 === 'enabled') {
-    serverOptions.http2 = true
+  if (process.env.ENABLE_HTTP2 === 'enabled') {
+    serverOptions.ENABLE_HTTP2 = true
 
     if (process.env.NODE_ENV === ENV.DEVELOPMENT) {
       const certs = selfCert({

@@ -29,7 +29,7 @@ export default async function index(fastify) {
       )
     }
 
-    if (fastify.config.LOG_REQ_BODY && body) {
+    if (fastify.config.ENABLE_BODY_LOG && body) {
       log.debug(body, 'parsed body')
     }
   })
