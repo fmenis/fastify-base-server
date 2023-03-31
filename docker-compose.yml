@@ -2,26 +2,65 @@ version: '3.5'
 
 services:
   postgres:
-    container_name: postgres-fastify
-    image: postgres:14
+    container_name: postgres-test
+    image: postgres:14.5
     restart: always
     ports:
       - 7432:5432
     networks:
       - database
     volumes:
-      - postgres-fastify:/var/lib/postgresql/data
-      - ./conf/postgres/1-create-user-and-db.sh:/docker-entrypoint-initdb.d/1-create-user-and-db.sh
+      - postgres-test:/var/lib/postgresql/data
+      - ./test-stack/postgres/1-create-user-and-db.sh:/docker-entrypoint-initdb.d/1-create-user-and-db.sh
     environment:
       POSTGRES_PASSWORD: postgres
       PGDATA: /var/lib/postgresql/data/pgdata
       TZ: 'Europe/Rome'
       PGTZ: 'Europe/Rome'
 
+  redis:
+    container_name: redis-test
+    image: redis:7.0.5
+    restart: always
+    ports:
+      - 7379:6379
+    networks:
+      - database
+    volumes:
+      - redis-test:/data
+
+  nginx:
+    container_name: nginx
+    image: nginx:stable
+    restart: always
+    volumes:
+      - /tmp:/usr/share/nginx/html:ro
+      - ./test-stack/nginx:/etc/nginx/templates
+      - /tmp:/tmp
+    ports:
+      - '8080:80'
+    environment:
+      - NGINX_HOST=foobar.com
+      - NGINX_PORT=80
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer:latest
+    restart: always
+    ports:
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-test:/data
+
 networks:
   database:
     name: database
 
 volumes:
-  postgres-fastify:
-    name: postgres-fastify
+  postgres-test:
+    name: postgres-test
+  redis-test:
+    name: redis-test
+  portainer-test:
+    name: portainer-test
