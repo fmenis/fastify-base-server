@@ -13,7 +13,7 @@
     "test": "npm run applyMigrations TEST_DB && tap --jobs=1 test/**/*.spec.js",
     "lint": "eslint . --ext .js",
     "prepare": "husky install",
-    "initDb": "docker-compose up -d",
+    "initDb": "docker compose up -d",
     "rebuildDb": "./scripts/rebuildDb.sh",
     "applyMigrations": "node -r dotenv/config ./scripts/applyMigrations.js"
   },
@@ -41,6 +41,7 @@
     "dotenv": "^16.0.1",
     "fastify": "^4.0.3",
     "fastify-bcrypt": "^1.0.0",
+    "fastify-massive": "1.0.0",
     "fastify-plugin": "^3.0.1",
     "fluent-json-schema": "^3.1.0",
     "massive": "^6.10.2",

@@ -18,20 +18,17 @@ closeWithGrace({ delay: 500 }, async ({ signal, err }) => {
   await fastify.close()
 })
 
-fastify.listen(
-  {
-    port: process.env.SERVER_PORT,
-    host: process.env.SERVER_ADDRESS,
-  },
-  err => {
-    const { log } = fastify
+const port = process.env.SERVER_PORT || 3000
+const host = process.env.SERVER_ADDRESS || '127.0.0.1'
 
-    if (err) {
-      log.fatal(err)
-      // eslint-disable-next-line no-process-exit
-      process.exit(1)
-    }
+fastify.listen({ port, host }, err => {
+  const { log } = fastify
 
-    log.info(`Server running in '${process.env.NODE_ENV}' mode`)
+  if (err) {
+    log.fatal(err)
+    // eslint-disable-next-line no-process-exit
+    process.exit(1)
   }
-)
+
+  log.info(`Server running in '${process.env.NODE_ENV}' mode`)
+})

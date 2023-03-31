@@ -1,6 +1,10 @@
 import fp from 'fastify-plugin'
 
-import { sNoContent } from '../common/responseSchemas.js'
+import {
+  sNoContent,
+  sAccepted,
+  sPaginatedInfo,
+} from '../utils/schema/httpResponse.schema.js'
 import {
   sBadRequest,
   sForbidden,
@@ -8,10 +12,12 @@ import {
   sNotFound,
   sConflict,
   sInternalServerError,
-} from '../common/errorSchemas.js'
+} from '../utils/schema/httpError.Schema.js'
 
 async function loadSchemas(fastify) {
   fastify.addSchema(sNoContent())
+  fastify.addSchema(sAccepted())
+  fastify.addSchema(sPaginatedInfo())
   fastify.addSchema(sBadRequest())
   fastify.addSchema(sForbidden())
   fastify.addSchema(sUnauthorized())

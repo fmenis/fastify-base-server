@@ -4,6 +4,12 @@ import selfCert from 'self-cert'
 
 import { ENV } from '../common/enums.js'
 
+/**
+ * ##TODO
+ * - migliorare settings logging
+ * - testare http2
+ */
+
 export function buildServerOptions() {
   const serverOptions = {
     logger: {
@@ -18,7 +24,12 @@ export function buildServerOptions() {
         },
       },
       redact: {
-        paths: ['password'],
+        paths: [
+          'password',
+          'oldPassword',
+          'newPassword',
+          'newPasswordConfirmation',
+        ],
         censor: '**GDPR COMPLIANT**',
       },
     },

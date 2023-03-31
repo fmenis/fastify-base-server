@@ -5,7 +5,7 @@ export function sBadRequest() {
     .id('sBadRequest')
     .additionalProperties(false)
     .description('Bad Request.')
-    .prop('statusCode', S.number())
+    .prop('statusCode', S.integer())
     .description('Http status code.')
     .default('400')
     .required()
@@ -43,7 +43,7 @@ export function sUnauthorized() {
     .id('sUnauthorized')
     .additionalProperties(false)
     .description('Unauthorized.')
-    .prop('statusCode', S.number())
+    .prop('statusCode', S.integer())
     .description('Http status code.')
     .default('401')
     .required()
@@ -55,7 +55,14 @@ export function sUnauthorized() {
     .description('Message.')
     .required()
     .prop('internalCode', S.string())
-    .description('Internal code')
+    .description(
+      'Internal code.\n' +
+        '0001: invalid access, invalid credentials.\n' +
+        '0004: invalid access, cookie not found (not present or expired).\n' +
+        '0005: invalid access, malformed cookie.\n' +
+        '0006: invalid access, session not found.\n' +
+        '0011: invalid access, session expired.\n'
+    )
     .required()
     .prop('details', S.object().additionalProperties(true))
     .description('Error details (unstructured data).')
@@ -67,7 +74,7 @@ export function sForbidden() {
     .id('sForbidden')
     .additionalProperties(false)
     .description('Forbidden.')
-    .prop('statusCode', S.number())
+    .prop('statusCode', S.integer())
     .description('Http status code.')
     .default('403')
     .required()
@@ -79,7 +86,18 @@ export function sForbidden() {
     .description('Message.')
     .required()
     .prop('internalCode', S.string())
-    .description('Internal code')
+    .description(
+      'Internal code.\n' +
+        '0002: invalid access, user blocked by an administrator.\n' +
+        '0003: invalid access, max session number reached.\n' +
+        '0007: invalid access, session not valid.\n' +
+        '0008: invalid access, user not found.\n' +
+        '0009: invalid access, user deleted. \n' +
+        '0010: invalid access, missing permission. \n' +
+        '0012: forbidden, reset link not found. \n' +
+        '0013: forbidden, reset link already used. \n' +
+        '0014: forbidden, reset link expired. \n'
+    )
     .required()
     .prop('details', S.object().additionalProperties(true))
     .description('Error details (unstructured data).')
@@ -91,7 +109,7 @@ export function sNotFound() {
     .id('sNotFound')
     .additionalProperties(false)
     .description('Not found.')
-    .prop('statusCode', S.number())
+    .prop('statusCode', S.integer())
     .description('Http status code.')
     .default('404')
     .required()
@@ -116,7 +134,7 @@ export function sConflict() {
     .id('sConflict')
     .additionalProperties(false)
     .description('Conflict.')
-    .prop('statusCode', S.number())
+    .prop('statusCode', S.integer())
     .description('Http status code.')
     .default('409')
     .required()
@@ -140,7 +158,7 @@ export function sInternalServerError() {
     .id('sInternalServerError')
     .additionalProperties(false)
     .description('Intenal Server Error.')
-    .prop('statusCode', S.number())
+    .prop('statusCode', S.integer())
     .description('Http status code.')
     .default('500')
     .required()
