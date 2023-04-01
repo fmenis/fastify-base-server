@@ -17,9 +17,9 @@
 - Strong environment variables usage
 - E2e test applied to a physic copy of the main db
 - PM2 ecosystem files
-- [TODO] centralization of API errors
+- centralization of API errors
 - [TODO] server dockerization
-- [TODO] structured codebase
+- structured codebase
 - [TODO] TypeScript support
 
 ## Requirements

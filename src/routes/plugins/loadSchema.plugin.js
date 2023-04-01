@@ -4,7 +4,7 @@ import {
   sNoContent,
   sAccepted,
   sPaginatedInfo,
-} from '../utils/schema/httpResponse.schema.js'
+} from '../common/schema/httpResponse.schema.js'
 import {
   sBadRequest,
   sForbidden,
@@ -12,7 +12,7 @@ import {
   sNotFound,
   sConflict,
   sInternalServerError,
-} from '../utils/schema/httpError.Schema.js'
+} from '../common/schema/httpError.Schema.js'
 
 async function loadSchemas(fastify) {
   fastify.addSchema(sNoContent())

@@ -1,7 +1,7 @@
 import fp from 'fastify-plugin'
 // import S from 'fluent-json-schema'
 
-import { trimObjectFields } from './utils.js'
+import { trimObjectFields } from '../common/utils.js'
 
 async function commonHooks(fastify) {
   /**

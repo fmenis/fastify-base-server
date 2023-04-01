@@ -4,7 +4,7 @@ import fp from 'fastify-plugin'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 
-import { ENV } from '../utils/enum.js'
+import { ENV } from '../common/enum.js'
 
 const { version } = JSON.parse(readFileSync(join(resolve(), 'package.json')))
 
