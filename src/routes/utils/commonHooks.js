@@ -1,5 +1,5 @@
 import fp from 'fastify-plugin'
-import S from 'fluent-json-schema'
+// import S from 'fluent-json-schema'
 
 import { trimObjectFields } from './utils.js'
 
@@ -41,22 +41,25 @@ async function commonHooks(fastify) {
       ...options.schema,
       response: {
         ...options.schema.response,
-        400: fastify.getSchema('sBadRequest'),
-        401: fastify.getSchema('sUnauthorized'),
-        403: fastify.getSchema('sForbidden'), //##TODO non tutte le api hanno logiche di permessi
+        //##TODO impostarli a livello di singolo endpoint
+        // 400: fastify.getSchema('sBadRequest'),
+        // 401: fastify.getSchema('sUnauthorized'),
+        // 403: fastify.getSchema('sForbidden'),
         500: fastify.getSchema('sInternalServerError'),
       },
     }
-    if (!options?.config?.public) {
-      options.schema = {
-        ...options.schema,
-        headers: S.object()
-          .additionalProperties(true)
-          .prop('Cookie', S.string())
-          .description('Authentication cookie header.')
-          .required(),
-      }
-    }
+
+    //##TODO impostare quando decisa autenticazione
+    // if (!options.config.public) {
+    //   options.schema = {
+    //     ...options.schema,
+    //     headers: S.object()
+    //       .additionalProperties(true)
+    //       .prop('Cookie', S.string())
+    //       .description('Authentication cookie header.')
+    //       .required(),
+    //   }
+    // }
   })
 
   /**
