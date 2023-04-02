@@ -1,4 +1,4 @@
-import commonHooks from './plugins/commonHooks.js'
+import commonHooks from './plugins/commonHooks.plugin.js'
 import swagger from './plugins/swagger.plugin.js'
 import loadSchemas from './plugins/loadSchema.plugin.js'
 import commonErrors from './plugins/commonErrors.plugin.js'

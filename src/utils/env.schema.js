@@ -1,5 +1,5 @@
 import S from 'fluent-json-schema'
-import { ENV } from '../common/enums.js'
+import { ENV } from '../routes/common/enum.js'
 
 export function sEnv() {
   return S.object()
@@ -27,5 +27,7 @@ export function sEnv() {
     .prop('PG_USER', S.string().required())
     .prop('PG_PW', S.string().required())
     .prop('JWT_SECRET', S.string().minLength(10).required())
+    .prop('ENABLE_SENTRY', S.boolean())
+    .default(false)
     .valueOf()
 }

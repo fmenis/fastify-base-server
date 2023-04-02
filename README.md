@@ -61,6 +61,8 @@
 | **PG_USER**     |                    | Postgres user                     |
 | **PG_PW**       |                    | Postgres password                 |
 | **JWT_SECRET**  |                    | Secret used to sign the jwt token |
+| ENABLE_SENTRY   |       false        | Enable sentry integration         |
+| SENTRY_DSN      |                    | Secret used to sign the jwt token |
 
 PS: If you have difficulties to compiling the env file, ask the backend guy!
 

@@ -1,10 +1,11 @@
 import t from 'tap'
-import { join, resolve } from 'path'
-import { readFileSync } from 'fs'
+
 import { build } from './helpers/helper.js'
 import { getUser } from './helpers/dbHelper.js'
 
-const { version } = JSON.parse(readFileSync(join(resolve(), 'package.json')))
+import { getServerVersion } from '../src/routes/common/utils.js'
+
+const version = getServerVersion()
 
 t.test('Status API', async t => {
   t.plan(2)

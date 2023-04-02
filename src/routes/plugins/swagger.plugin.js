@@ -1,14 +1,13 @@
-import { readFileSync } from 'fs'
-import { join, resolve } from 'path'
 import fp from 'fastify-plugin'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 
 import { ENV } from '../common/enum.js'
-
-const { version } = JSON.parse(readFileSync(join(resolve(), 'package.json')))
+import { getServerVersion } from '../common/utils.js'
 
 async function swaggerGenerator(fastify) {
+  const version = getServerVersion()
+
   await fastify.register(fastifySwagger, {
     mode: 'dynamic',
     openapi: {
@@ -47,25 +46,27 @@ async function swaggerGenerator(fastify) {
     },
   })
 
-  await fastify.register(fastifySwaggerUi, {
-    routePrefix: '/doc',
-    initOAuth: {},
-    uiConfig: {
-      docExpansion: 'full',
-      deepLinking: false,
-    },
-    uiHooks: {
-      onRequest: function (request, reply, next) {
-        next()
+  if (process.env.NODE_ENV !== ENV.PRODUCTION) {
+    await fastify.register(fastifySwaggerUi, {
+      //##TODO studiare configurazioni
+      routePrefix: '/doc',
+      initOAuth: {},
+      uiConfig: {
+        docExpansion: 'full',
+        deepLinking: false,
       },
-      //##TODO https://github.com/fastify/fastify-swagger-ui#protect-your-documentation-routes
-      preHandler: function (request, reply, next) {
-        next()
+      uiHooks: {
+        onRequest: function (request, reply, next) {
+          next()
+        },
+        preHandler: function (request, reply, next) {
+          next()
+        },
       },
-    },
-    staticCSP: true,
-    transformStaticCSP: header => header,
-  })
+      staticCSP: true,
+      transformStaticCSP: header => header,
+    })
+  }
 }
 
 export default fp(swaggerGenerator)

@@ -1,13 +1,11 @@
 import S from 'fluent-json-schema'
-import { join, resolve } from 'path'
-import { readFileSync } from 'fs'
 
 import { buildRouteFullDescription } from '../common/routeUtils.js'
-
-const { version } = JSON.parse(readFileSync(join(resolve(), 'package.json')))
+import { getServerVersion } from '../common/utils.js'
 
 export default async function status(fastify) {
   const { errors } = fastify.commonErrors
+  const version = getServerVersion()
 
   fastify.route({
     method: 'GET',

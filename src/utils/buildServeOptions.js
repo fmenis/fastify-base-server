@@ -2,7 +2,7 @@ import { readFileSync } from 'fs'
 import { stdTimeFunctions } from 'pino'
 import selfCert from 'self-cert'
 
-import { ENV } from '../common/enums.js'
+import { ENV } from '../routes/common/enum.js'
 
 /**
  * ##TODO
