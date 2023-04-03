@@ -51,7 +51,7 @@
 | SERVER_PORT     |        3000        | Server port                       |
 | LOG_LEVEL       |        info        | Pino.js default log level         |
 | ENABLE_BODY_LOG |       false        | Log request body                  |
-| ENABLE_HTTP2    |      disabled      | Launch server with http version 2 |
+| ENABLE_HTTP2    |       false        | Launch server with http version 2 |
 | SSH_PRIVATE_KEY |                    | SSH private key full path         |
 | SSH_CERTIFICATE |                    | SSH certificate key full path     |
 | **PG_HOST**     |                    | Postgres host                     |
@@ -60,7 +60,6 @@
 | **PG_DB_TEST**  |                    | Postgres test database            |
 | **PG_USER**     |                    | Postgres user                     |
 | **PG_PW**       |                    | Postgres password                 |
-| **JWT_SECRET**  |                    | Secret used to sign the jwt token |
 | ENABLE_SENTRY   |       false        | Enable sentry integration         |
 | SENTRY_DSN      |                    | Secret used to sign the jwt token |
 

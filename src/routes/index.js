@@ -8,13 +8,13 @@ import miscRoutes from './misc/index.js'
 // import authRoutes from './auth/index.js'
 
 export default async function index(fastify) {
-  fastify.register(swagger)
-  fastify.register(loadSchemas)
-  fastify.register(commonHooks)
-  fastify.register(commonErrors)
+  await fastify.register(swagger)
+  await fastify.register(loadSchemas)
+  await fastify.register(commonHooks)
+  await fastify.register(commonErrors)
   //##TODO impostare auth
   // fastify.register(authentication)
 
-  fastify.register(miscRoutes)
+  await fastify.register(miscRoutes)
   // fastify.register(authRoutes)
 }

@@ -26,12 +26,12 @@ async function swaggerGenerator(fastify) {
       },
       servers: [
         {
-          url: `http://localhost:${process.env.SERVER_PORT}`,
+          url: `http://localhost:${fastify.config.SERVER_PORT}`,
           description: 'Local api',
           env: ENV.LOCAL,
         },
       ].reduce((acc, item) => {
-        if (item.env === process.env.NODE_ENV) {
+        if (item.env === fastify.config.NODE_ENV) {
           acc.push({
             url: item.url,
             description: item.description,
@@ -46,7 +46,7 @@ async function swaggerGenerator(fastify) {
     },
   })
 
-  if (process.env.NODE_ENV !== ENV.PRODUCTION) {
+  if (fastify.config.NODE_ENV !== ENV.PRODUCTION) {
     await fastify.register(fastifySwaggerUi, {
       //##TODO studiare configurazioni
       routePrefix: '/doc',

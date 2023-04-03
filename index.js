@@ -1,12 +1,18 @@
 import Fastify from 'fastify'
 import closeWithGrace from 'close-with-grace'
+import env from '@fastify/env'
 
 import { buildServerOptions } from './src/utils/buildServeOptions.js'
-import App from './src/app.js'
+import { sEnv } from './src/utils/env.schema.js'
+import app from './src/app.js'
 
 const fastify = Fastify(buildServerOptions())
 
-await fastify.register(App)
+await fastify.register(env, {
+  schema: sEnv(),
+})
+
+await fastify.register(app)
 await fastify.ready()
 
 closeWithGrace({ delay: 500 }, async ({ signal, err }) => {
@@ -18,17 +24,23 @@ closeWithGrace({ delay: 500 }, async ({ signal, err }) => {
   await fastify.close()
 })
 
-const port = process.env.SERVER_PORT || 3000
-const host = process.env.SERVER_ADDRESS || '127.0.0.1'
+fastify.listen(
+  {
+    port: fastify.config.SERVER_PORT,
+    host: fastify.config.SERVER_ADDRESS,
+  },
+  err => {
+    const { log } = fastify
 
-fastify.listen({ port, host }, err => {
-  const { log } = fastify
+    if (err) {
+      log.fatal(err)
+      // eslint-disable-next-line no-process-exit
+      process.exit(1)
+    }
 
-  if (err) {
-    log.fatal(err)
-    // eslint-disable-next-line no-process-exit
-    process.exit(1)
+    const httpVersion = fastify.config.ENABLE_HTTP2 ? 2 : 1
+    log.info(
+      `Server launched in '${fastify.config.NODE_ENV}' environment (http version ${httpVersion})`
+    )
   }
-
-  log.info(`Server running in '${process.env.NODE_ENV}' mode`)
-})
+)
