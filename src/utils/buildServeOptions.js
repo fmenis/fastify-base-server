@@ -1,8 +1,4 @@
-import { readFileSync } from 'fs'
 import { stdTimeFunctions } from 'pino'
-import selfCert from 'self-cert'
-
-import { ENV } from '../routes/common/enum.js'
 
 export function buildServerOptions() {
   const serverOptions = {
@@ -13,26 +9,6 @@ export function buildServerOptions() {
         allErrors: true,
       },
     },
-  }
-
-  if (process.env.ENABLE_HTTP2 === 'true') {
-    serverOptions.ENABLE_HTTP2 = true
-
-    if (process.env.NODE_ENV === ENV.LOCAL) {
-      const certs = selfCert({
-        expires: new Date(Date.now() + 86400000),
-      })
-
-      serverOptions.https = {
-        key: certs.privateKey,
-        cert: certs.certificate,
-      }
-    } else {
-      serverOptions.https = {
-        key: readFileSync(process.env.SSH_PRIVATE_KEY),
-        cert: readFileSync(process.env.SSH_CERTIFICATE),
-      }
-    }
   }
 
   return serverOptions

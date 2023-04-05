@@ -38,9 +38,6 @@ fastify.listen(
       process.exit(1)
     }
 
-    const httpVersion = fastify.config.ENABLE_HTTP2 ? 2 : 1
-    log.info(
-      `Server launched in '${fastify.config.NODE_ENV}' environment (http version ${httpVersion})`
-    )
+    log.info(`Server launched in '${fastify.config.NODE_ENV}' environment`)
   }
 )

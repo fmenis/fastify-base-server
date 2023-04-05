@@ -18,7 +18,6 @@ export function sEnv() {
         .default('info')
     )
     .prop('ENABLE_BODY_LOG', S.boolean().default(false))
-    .prop('ENABLE_HTTP2', S.boolean().default(false))
     .prop('PG_HOST', S.string().required())
     .prop('PG_PORT', S.string().required())
     .prop('PG_DB', S.string().required())
